@@ -1,0 +1,33 @@
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Desconsiderar arquivos de cache e logs
+.cache
+logs
+tmp
+
+# Desconsiderar arquivos de configuração local
+.env*
+config.local.js
+
+# Desconsiderar arquivos de IDE
+.idea
+*.suo
+*.ntvs*
+*.ncb
+*.sdf
+*.suo
+*.sln.doc
+*.sln.tmp
+*.user
+*.vbproj.user
+*.csproj.user
+
+# Desconsiderar arquivos de build
+build/
+dist/
+
+# Desconsiderar arquivos de bancos de dados
+db/
+*.sqlite3
