@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Sequelize } from "sequelize";
 
 class UserController {
-	async store(request, response) {
+	async store(req, res) {
 		const userSchema = Yup.object().shape({
 			name: Yup.string().required("Name is required"),
 			email: Yup.string()
@@ -17,9 +17,9 @@ class UserController {
 		});
 
 		try {
-			await userSchema.validate(request.body, { abortEarly: false });
+			await userSchema.validate(req.body, { abortEarly: false });
 
-			const { name, email, password, admin } = request.body;
+			const { name, email, password, admin } = req.body;
 
 			const userExists = await User.findOne({
 				where: {
@@ -27,7 +27,7 @@ class UserController {
 				},
 			});
 			if (userExists) {
-				return response.status(400).json({ error: "User already exists" });
+				return res.status(400).json({ error: "User already exists" });
 			}
 
 			const user = await User.create({
@@ -38,7 +38,7 @@ class UserController {
 				admin,
 			});
 
-			return response.status(201).json({
+			return res.status(201).json({
 				id: user.id,
 				name,
 				email,
@@ -46,16 +46,16 @@ class UserController {
 			});
 		} catch (err) {
 			if (err instanceof Sequelize.UniqueConstraintError) {
-				return response
+				return res
 					.status(400)
 					.json({ error: "Duplicate entry", details: err.errors });
 			}
 			if (err.name === "ValidationError") {
-				return response
+				return res
 					.status(400)
 					.json({ error: "Validation failed", details: err.errors });
 			}
-			return response
+			return res
 				.status(500)
 				.json({ error: "Failed to create user", details: err.message });
 		}
