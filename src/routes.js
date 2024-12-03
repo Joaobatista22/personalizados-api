@@ -5,20 +5,20 @@ import UserController from "./app/controllers/UserController";
 import SessionController from "./app/controllers/SessionController";
 import ProductController from "./app/controllers/ProductController";
 import CategoryController from "./app/controllers/CategoryController copy";
-import authMiddleware from "./middlewares/auth";
+import authMiddleware from "./app/middlewares/auth";
 
-const router = new Router();
+const routes = new Router();
 
 const upload = multer(multerConfig);
 
-router.post("/users", UserController.store);
-router.post("/session", SessionController.store);
+routes.post("/users", UserController.store);
+routes.post("/session", SessionController.store);
 
-router.use(authMiddleware);
-router.post("/products", upload.single("file"), ProductController.store);
-router.get("/products", ProductController.index);
+routes.use(authMiddleware);
+routes.post("/products", upload.single("file"), ProductController.store);
+routes.get("/products", ProductController.index);
 
-router.post("/categories", CategoryController.store);
-router.get("/categories", CategoryController.index);
+routes.post("/categories", CategoryController.store);
+routes.get("/categories", CategoryController.index);
 
-export default router;
+export default routes;
